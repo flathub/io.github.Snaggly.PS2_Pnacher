@@ -1,6 +1,6 @@
 app-id: io.github.Snaggly.PS2_Pnacher
 runtime: org.gnome.Platform
-runtime-version: '40'
+runtime-version: '42'
 sdk: org.gnome.Sdk
 command: ps2pnacher
 finish-args:
@@ -55,7 +55,7 @@ modules:
                 sha256: a2a99f3fa943cf662f189163ed39a2cfc19a428d906dd4f92b387d3659d1641d
             cleanup:
               - '*'
-              
+
           - name: libsigc++
             buildsystem: meson
             config-opts:
@@ -116,7 +116,7 @@ modules:
                 commit: 3170a5300b6617bfe9f461f57c34f1705e0c679e
             cleanup:
               - '/lib/pangomm*'
-              
+
       - name: libcdio
         rm-configure: true
         sources:
