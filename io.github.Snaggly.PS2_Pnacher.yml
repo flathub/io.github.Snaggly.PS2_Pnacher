@@ -31,6 +31,8 @@ modules:
         commit: 6f23e70234ff3f48ed27d304413d7900c259442c
       - type: patch
         path: ps2pnacher_flatpak.patch
+      - type: patch
+        path: fix-icon-dimensions.patch
     post-install:
         - install -Dm644 flatpak/io.github.Snaggly.PS2_Pnacher.metainfo.xml /app/share/metainfo/io.github.Snaggly.PS2_Pnacher.metainfo.xml
     modules:
