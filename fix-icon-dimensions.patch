@@ -1,0 +1,25 @@
+From 5d7fcb0faef5cd16a23ece983bd4c6a5d0ce9d8a Mon Sep 17 00:00:00 2001
+From: bbhtt <62639087+bbhtt@users.noreply.github.com>
+Date: Sat, 3 Sep 2022 07:28:45 +0530
+Subject: [PATCH] Fix icon dimensions
+
+---
+ res/io.github.Snaggly.PS2_Pnacher.svg | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/res/io.github.Snaggly.PS2_Pnacher.svg b/res/io.github.Snaggly.PS2_Pnacher.svg
+index fcca072..6eeda39 100644
+--- a/res/io.github.Snaggly.PS2_Pnacher.svg
++++ b/res/io.github.Snaggly.PS2_Pnacher.svg
+@@ -10,7 +10,7 @@
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    width="111.84942mm"
+-   height="112.50439mm"
++   height="111.84942mm"
+    viewBox="0 0 111.84942 112.50439"
+    version="1.1"
+    id="svg8"
+-- 
+2.37.3
+
