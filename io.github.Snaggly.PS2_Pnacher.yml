@@ -1,6 +1,6 @@
 app-id: io.github.Snaggly.PS2_Pnacher
 runtime: org.gnome.Platform
-runtime-version: '42'
+runtime-version: '43'
 sdk: org.gnome.Sdk
 command: ps2pnacher
 finish-args:
@@ -27,14 +27,14 @@ modules:
     sources:
       - type: git
         url: 'https://github.com/Snaggly/PS2_Pnacher.git'
-        tag: 1.0
+        tag: '1.0'
         commit: 6f23e70234ff3f48ed27d304413d7900c259442c
       - type: patch
         path: ps2pnacher_flatpak.patch
       - type: patch
         path: fix-icon-dimensions.patch
     post-install:
-        - install -Dm644 flatpak/io.github.Snaggly.PS2_Pnacher.metainfo.xml /app/share/metainfo/io.github.Snaggly.PS2_Pnacher.metainfo.xml
+        - install -Dm644 flatpak/${FLATPAK_ID}.metainfo.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
     modules:
       - name: glibmm
         buildsystem: meson
@@ -43,8 +43,8 @@ modules:
           - -Dbuild-examples=false
         sources:
           - type: archive
-            url: 'https://download.gnome.org/sources/glibmm/2.66/glibmm-2.66.4.tar.xz'
-            sha256: 199ace5682d81b15a1d565480b4a950682f2db6402c8aa5dd7217d71edff81d5
+            url: 'https://download.gnome.org/sources/glibmm/2.66/glibmm-2.66.5.tar.xz'
+            sha256: 7b384662dd6ec3b86c0570331d32af05db2bd99a791602b767b4a0b2566ec149
         cleanup:
           - '/lib/glibmm*'
           - '/lib/giomm*'
@@ -76,8 +76,8 @@ modules:
           - -Dbuild-documentation=false
         sources:
           - type: archive
-            url: 'https://download.gnome.org/sources/gtkmm/3.24/gtkmm-3.24.6.tar.xz'
-            sha256: 4b3e142e944e1633bba008900605c341a93cfd755a7fa2a00b05d041341f11d6
+            url: 'https://download.gnome.org/sources/gtkmm/3.24/gtkmm-3.24.7.tar.xz'
+            sha256: 1d7a35af9c5ceccacb244ee3c2deb9b245720d8510ac5c7e6f4b6f9947e6789c
         cleanup:
           - '/lib/gdkmm*'
           - '/lib/gtkmm*'
@@ -99,10 +99,10 @@ modules:
               - --disable-documentation
             sources:
               - type: archive
-                url: 'https://gitlab.freedesktop.org/cairo/cairomm/-/archive/1.14.3/cairomm-1.14.3.tar.gz'
-                sha256: 7dab16c5698acb284f178048337465b463fbed01c49e10bfe48acb0a852d873e
+                url: 'https://gitlab.freedesktop.org/cairo/cairomm/-/archive/1.14.4/cairomm-1.14.4.tar.gz'
+                sha256: ee12b920b2d47cea1b6e20c367690d726eb22b4ca9fc711db329d03adcc0c8e0
             post-install:
-              - install -Dm644 -t /app/share/licenses/cairomm COPYING
+              - install -Dm644 -t ${FLATPAK_DEST}/share/licenses/cairomm COPYING
             cleanup:
               - '/lib/cairomm*'
 
@@ -112,8 +112,8 @@ modules:
               - -Dbuild-documentation=false
             sources:
               - type: archive
-                url: 'https://download.gnome.org/sources/pangomm/2.46/pangomm-2.46.2.tar.xz'
-                sha256: 57442ab4dc043877bfe3839915731ab2d693fc6634a71614422fb530c9eaa6f4
+                url: 'https://download.gnome.org/sources/pangomm/2.46/pangomm-2.46.3.tar.xz'
+                sha256: 410fe04d471a608f3f0273d3a17d840241d911ed0ff2c758a9859c66c6f24379
             cleanup:
               - '/lib/pangomm*'
 
@@ -123,6 +123,6 @@ modules:
             url: 'https://ftp.gnu.org/gnu/libcdio/libcdio-2.1.0.tar.bz2'
             sha256: 8550e9589dbd594bfac93b81ecf129b1dc9d0d51e90f9696f1b2f9b2af32712b
         post-install:
-            - install -Dm644 -t /app/share/licenses/libcdio COPYING
+            - install -Dm644 -t ${FLATPAK_DEST}/share/licenses/libcdio COPYING
         cleanup:
             - '/bin/*'
