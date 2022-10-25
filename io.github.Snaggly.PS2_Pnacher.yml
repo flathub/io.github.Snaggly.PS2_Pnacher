@@ -2,7 +2,7 @@ app-id: io.github.Snaggly.PS2_Pnacher
 runtime: org.gnome.Platform
 runtime-version: '43'
 sdk: org.gnome.Sdk
-command: ps2pnacher
+command: io.github.Snaggly.PS2_Pnacher
 finish-args:
   - --share=ipc
   - --socket=fallback-x11
@@ -20,21 +20,17 @@ cleanup:
   - '*.la'
   - '*.a'
 modules:
-  - name: ps2pnacher
-    buildsystem: cmake-ninja
+  - name: io.github.Snaggly.PS2_Pnacher
+    buildsystem: meson
     config-opts:
-    - -DCMAKE_BUILD_TYPE=Release
+    - --buildtype=release
     sources:
       - type: git
         url: 'https://github.com/Snaggly/PS2_Pnacher.git'
-        tag: '1.0'
-        commit: 6f23e70234ff3f48ed27d304413d7900c259442c
-      - type: patch
-        path: ps2pnacher_flatpak.patch
+        tag: '1.1'
+        commit: 5a5fe7bf50d2692c353558e0c066105a7fa355fc
       - type: patch
         path: fix-icon-dimensions.patch
-    post-install:
-        - install -Dm644 flatpak/${FLATPAK_ID}.metainfo.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
     modules:
       - name: glibmm
         buildsystem: meson
@@ -43,21 +39,12 @@ modules:
           - -Dbuild-examples=false
         sources:
           - type: archive
-            url: 'https://download.gnome.org/sources/glibmm/2.66/glibmm-2.66.5.tar.xz'
-            sha256: 7b384662dd6ec3b86c0570331d32af05db2bd99a791602b767b4a0b2566ec149
+            url: 'https://download.gnome.org/sources/glibmm/2.74/glibmm-2.74.0.tar.xz'
+            sha256: 2b472696cbac79db8e405724118ec945219c5b9b18af63dc8cfb7f1d89b0f1fa
         cleanup:
           - '/lib/glibmm*'
           - '/lib/giomm*'
         modules:
-          - name: mm-common
-            buildsystem: meson
-            sources:
-              - type: archive
-                url: 'https://download.gnome.org/sources/mm-common/1.0/mm-common-1.0.4.tar.xz'
-                sha256: e954c09b4309a7ef93e13b69260acdc5738c907477eb381b78bb1e414ee6dbd8
-            cleanup:
-              - '*'
-
           - name: libsigc++
             buildsystem: meson
             config-opts:
@@ -65,8 +52,8 @@ modules:
               - -Dbuild-examples=false
             sources:
               - type: archive
-                url: 'https://download.gnome.org/sources/libsigc++/2.10/libsigc++-2.10.8.tar.xz'
-                sha256: 235a40bec7346c7b82b6a8caae0456353dc06e71f14bc414bcc858af1838719a
+                url: 'https://download.gnome.org/sources/libsigc++/3.2/libsigc++-3.2.0.tar.xz'
+                sha256: 8cdcb986e3f0a7c5b4474aa3c833d676e62469509f4899110ddf118f04082651
             cleanup:
               - '/lib/sigc++*'
 
@@ -76,31 +63,19 @@ modules:
           - -Dbuild-documentation=false
         sources:
           - type: archive
-            url: 'https://download.gnome.org/sources/gtkmm/3.24/gtkmm-3.24.7.tar.xz'
-            sha256: 1d7a35af9c5ceccacb244ee3c2deb9b245720d8510ac5c7e6f4b6f9947e6789c
+            url: 'https://download.gnome.org/sources/gtkmm/4.8/gtkmm-4.8.0.tar.xz'
+            sha256: c82786d46e2b07346b6397ca7f1929d952f4922fa5c9db3dee08498b9a136cf5
         cleanup:
           - '/lib/gdkmm*'
           - '/lib/gtkmm*'
         modules:
-
-          - name: atkmm
-            buildsystem: meson
-            config-opts:
-              - -Dbuild-documentation=false
-            sources:
-              - type: archive
-                url: 'https://download.gnome.org/sources/atkmm/2.28/atkmm-2.28.3.tar.xz'
-                sha256: 7c2088b486a909be8da2b18304e56c5f90884d1343c8da7367ea5cd3258b9969
-            cleanup:
-              - '/lib/atkmm*'
-
           - name: cairomm
             config-opts:
               - --disable-documentation
             sources:
               - type: archive
-                url: 'https://gitlab.freedesktop.org/cairo/cairomm/-/archive/1.14.4/cairomm-1.14.4.tar.gz'
-                sha256: ee12b920b2d47cea1b6e20c367690d726eb22b4ca9fc711db329d03adcc0c8e0
+                url: 'https://download.gnome.org/sources/cairomm/1.15/cairomm-1.15.4.tar.xz'
+                sha256: 4cd9fd959538953dfa606aaa7a31381e3193eebf14d814d97ef928684ee9feb5
             post-install:
               - install -Dm644 -t ${FLATPAK_DEST}/share/licenses/cairomm COPYING
             cleanup:
@@ -112,8 +87,8 @@ modules:
               - -Dbuild-documentation=false
             sources:
               - type: archive
-                url: 'https://download.gnome.org/sources/pangomm/2.46/pangomm-2.46.3.tar.xz'
-                sha256: 410fe04d471a608f3f0273d3a17d840241d911ed0ff2c758a9859c66c6f24379
+                url: 'https://download.gnome.org/sources/pangomm/2.50/pangomm-2.50.1.tar.xz'
+                sha256: ccc9923413e408c2bff637df663248327d72822f11e394b423e1c5652b7d9214
             cleanup:
               - '/lib/pangomm*'
 
