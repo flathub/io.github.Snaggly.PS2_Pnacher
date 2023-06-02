@@ -4,6 +4,7 @@ runtime-version: '44'
 sdk: org.gnome.Sdk
 command: io.github.Snaggly.PS2_Pnacher
 finish-args:
+  - --device=dri
   - --share=ipc
   - --socket=fallback-x11
   - --socket=wayland
