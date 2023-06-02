@@ -44,12 +44,14 @@ modules:
         cleanup:
           - '/lib/glibmm*'
           - '/lib/giomm*'
+          - '/lib/libglibmm_generate_extra_defs*'
         modules:
           - name: libsigc++
             buildsystem: meson
             config-opts:
               - -Dbuild-documentation=false
               - -Dbuild-examples=false
+              - -Dbuild-tests=false
             sources:
               - type: archive
                 url: 'https://download.gnome.org/sources/libsigc++/3.4/libsigc++-3.4.0.tar.xz'
@@ -61,6 +63,8 @@ modules:
         buildsystem: meson
         config-opts:
           - -Dbuild-documentation=false
+          - -Dbuild-tests=false
+          - -Dbuild-demos=false
         sources:
           - type: archive
             url: 'https://download.gnome.org/sources/gtkmm/4.10/gtkmm-4.10.0.tar.xz'
@@ -69,15 +73,25 @@ modules:
           - '/lib/gdkmm*'
           - '/lib/gtkmm*'
         modules:
+          - name: mm-common
+            buildsystem: meson
+            sources:
+              - type: archive
+                url: 'https://download.gnome.org/sources/mm-common/1.0/mm-common-1.0.5.tar.xz'
+                sha256: 705c6d29f4116a29bde4e36cfc1b046c92b6ef8c6dae4eaec85018747e6da5aa
+            cleanup:
+              - '/share/mm-common'
+              - '/bin/mm-common*'
+
           - name: cairomm
+            buildsystem: meson
             config-opts:
-              - --disable-documentation
+              - -Dbuild-documentation=false
+              - -Dbuild-examples=false
             sources:
               - type: archive
                 url: 'https://www.cairographics.org/releases/cairomm-1.16.2.tar.xz'
                 sha256: 6a63bf98a97dda2b0f55e34d1b5f3fb909ef8b70f9b8d382cb1ff3978e7dc13f
-            post-install:
-              - install -Dm644 -t ${FLATPAK_DEST}/share/licenses/cairomm COPYING
             cleanup:
               - '/lib/cairomm*'
 
@@ -91,6 +105,17 @@ modules:
                 sha256: ccc9923413e408c2bff637df663248327d72822f11e394b423e1c5652b7d9214
             cleanup:
               - '/lib/pangomm*'
+
+          - name: atkmm
+            buildsystem: meson
+            config-opts:
+              - -Dbuild-documentation=false
+            sources:
+              - type: archive
+                url: 'https://download.gnome.org/sources/atkmm/2.36/atkmm-2.36.2.tar.xz'
+                sha256: 6f62dd99f746985e573605937577ccfc944368f606a71ca46342d70e1cdae079
+            cleanup:
+              - '/lib/atkmm*'
 
       - name: libcdio
         sources:
