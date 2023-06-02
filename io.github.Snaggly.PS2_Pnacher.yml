@@ -1,9 +1,10 @@
 app-id: io.github.Snaggly.PS2_Pnacher
 runtime: org.gnome.Platform
-runtime-version: '43'
+runtime-version: '44'
 sdk: org.gnome.Sdk
 command: io.github.Snaggly.PS2_Pnacher
 finish-args:
+  - --device=dri
   - --share=ipc
   - --socket=fallback-x11
   - --socket=wayland
@@ -39,21 +40,23 @@ modules:
           - -Dbuild-examples=false
         sources:
           - type: archive
-            url: 'https://download.gnome.org/sources/glibmm/2.74/glibmm-2.74.0.tar.xz'
-            sha256: 2b472696cbac79db8e405724118ec945219c5b9b18af63dc8cfb7f1d89b0f1fa
+            url: 'https://download.gnome.org/sources/glibmm/2.76/glibmm-2.76.0.tar.xz'
+            sha256: 8637d80ceabd94fddd6e48970a082a264558d4ab82684e15ffc87e7ef3462ab2
         cleanup:
           - '/lib/glibmm*'
           - '/lib/giomm*'
+          - '/lib/libglibmm_generate_extra_defs*'
         modules:
           - name: libsigc++
             buildsystem: meson
             config-opts:
               - -Dbuild-documentation=false
               - -Dbuild-examples=false
+              - -Dbuild-tests=false
             sources:
               - type: archive
-                url: 'https://download.gnome.org/sources/libsigc++/3.2/libsigc++-3.2.0.tar.xz'
-                sha256: 8cdcb986e3f0a7c5b4474aa3c833d676e62469509f4899110ddf118f04082651
+                url: 'https://download.gnome.org/sources/libsigc++/3.4/libsigc++-3.4.0.tar.xz'
+                sha256: 02e2630ffb5ce93cd52c38423521dfe7063328863a6e96d41d765a6116b8707e
             cleanup:
               - '/lib/sigc++*'
 
@@ -61,23 +64,35 @@ modules:
         buildsystem: meson
         config-opts:
           - -Dbuild-documentation=false
+          - -Dbuild-tests=false
+          - -Dbuild-demos=false
         sources:
           - type: archive
-            url: 'https://download.gnome.org/sources/gtkmm/4.8/gtkmm-4.8.0.tar.xz'
-            sha256: c82786d46e2b07346b6397ca7f1929d952f4922fa5c9db3dee08498b9a136cf5
+            url: 'https://download.gnome.org/sources/gtkmm/4.10/gtkmm-4.10.0.tar.xz'
+            sha256: e1b109771557ecc53cba915a80b6ede827ffdbd0049c62fdf8bd7fa79afcc6eb
         cleanup:
           - '/lib/gdkmm*'
           - '/lib/gtkmm*'
         modules:
-          - name: cairomm
-            config-opts:
-              - --disable-documentation
+          - name: mm-common
+            buildsystem: meson
             sources:
               - type: archive
-                url: 'https://download.gnome.org/sources/cairomm/1.15/cairomm-1.15.4.tar.xz'
-                sha256: 4cd9fd959538953dfa606aaa7a31381e3193eebf14d814d97ef928684ee9feb5
-            post-install:
-              - install -Dm644 -t ${FLATPAK_DEST}/share/licenses/cairomm COPYING
+                url: 'https://download.gnome.org/sources/mm-common/1.0/mm-common-1.0.5.tar.xz'
+                sha256: 705c6d29f4116a29bde4e36cfc1b046c92b6ef8c6dae4eaec85018747e6da5aa
+            cleanup:
+              - '/share/mm-common'
+              - '/bin/mm-common*'
+
+          - name: cairomm
+            buildsystem: meson
+            config-opts:
+              - -Dbuild-documentation=false
+              - -Dbuild-examples=false
+            sources:
+              - type: archive
+                url: 'https://www.cairographics.org/releases/cairomm-1.16.2.tar.xz'
+                sha256: 6a63bf98a97dda2b0f55e34d1b5f3fb909ef8b70f9b8d382cb1ff3978e7dc13f
             cleanup:
               - '/lib/cairomm*'
 
@@ -91,6 +106,17 @@ modules:
                 sha256: ccc9923413e408c2bff637df663248327d72822f11e394b423e1c5652b7d9214
             cleanup:
               - '/lib/pangomm*'
+
+          - name: atkmm
+            buildsystem: meson
+            config-opts:
+              - -Dbuild-documentation=false
+            sources:
+              - type: archive
+                url: 'https://download.gnome.org/sources/atkmm/2.36/atkmm-2.36.2.tar.xz'
+                sha256: 6f62dd99f746985e573605937577ccfc944368f606a71ca46342d70e1cdae079
+            cleanup:
+              - '/lib/atkmm*'
 
       - name: libcdio
         sources:
