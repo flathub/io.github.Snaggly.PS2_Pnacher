@@ -1,6 +1,6 @@
 app-id: io.github.Snaggly.PS2_Pnacher
 runtime: org.gnome.Platform
-runtime-version: '44'
+runtime-version: '49'
 sdk: org.gnome.Sdk
 command: io.github.Snaggly.PS2_Pnacher
 finish-args:
@@ -9,121 +9,122 @@ finish-args:
   - --socket=fallback-x11
   - --socket=wayland
 cleanup:
-  - '/include'
-  - '/lib/pkgconfig'
-  - '/share/aclocal'
-  - '/share/doc'
-  - '/share/gtk-doc'
-  - '/share/info'
-  - '/share/man'
-  - '/share/pkgconfig'
-  - '/lib/cmake'
+  - /include
+  - /lib/pkgconfig
+  - /share/aclocal
+  - /share/doc
+  - /share/gtk-doc
+  - /share/info
+  - /share/man
+  - /share/pkgconfig
+  - /lib/cmake
   - '*.la'
   - '*.a'
 modules:
-  - name: io.github.Snaggly.PS2_Pnacher
+  - name: glibmm
     buildsystem: meson
     config-opts:
-    - --buildtype=release
+      - -Dbuild-documentation=false
+      - -Dbuild-examples=false
     sources:
-      - type: git
-        url: 'https://github.com/Snaggly/PS2_Pnacher.git'
-        tag: '1.1'
-        commit: 5a5fe7bf50d2692c353558e0c066105a7fa355fc
-      - type: patch
-        path: fix-icon-dimensions.patch
+      - type: archive
+        url: https://download.gnome.org/sources/glibmm/2.86/glibmm-2.86.0.tar.xz
+        sha256: 39c0e9f6da046d679390774efdb9ad564436236736dc2f7825e614b2d4087826
+    cleanup:
+      - '/lib/glibmm*'
+      - '/lib/giomm*'
+      - '/lib/libglibmm_generate_extra_defs*'
     modules:
-      - name: glibmm
+      - name: libsigc++
+        buildsystem: meson
+        config-opts:
+          - -Dbuild-documentation=false
+          - -Dbuild-examples=false
+          - -Dbuild-tests=false
+        sources:
+          - type: archive
+            url: https://download.gnome.org/sources/libsigc++/3.6/libsigc%2B%2B-3.6.0.tar.xz
+            sha256: c3d23b37dfd6e39f2e09f091b77b1541fbfa17c4f0b6bf5c89baef7229080e17
+        cleanup:
+          - '/lib/sigc++*'
+
+  - name: gtkmm
+    buildsystem: meson
+    config-opts:
+      - -Dbuild-documentation=false
+      - -Dbuild-tests=false
+      - -Dbuild-demos=false
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/gtkmm/4.19/gtkmm-4.19.1.tar.xz
+        sha256: 2b443ddfbf0cf28c4bece447a5bba62028c49df45ccb1b3f438a3a3e0bca31aa
+    cleanup:
+      - '/lib/gdkmm*'
+      - '/lib/gtkmm*'
+    modules:
+      - name: mm-common
+        buildsystem: meson
+        sources:
+          - type: archive
+            url: https://download.gnome.org/sources/mm-common/1.0/mm-common-1.0.7.tar.xz
+            sha256: 494abfce781418259b1e9d8888c73af4de4b6f3be36cc75d9baa8baa0f2a7a39
+        cleanup:
+          - '/share/mm-common'
+          - '/bin/mm-common*'
+
+      - name: cairomm
         buildsystem: meson
         config-opts:
           - -Dbuild-documentation=false
           - -Dbuild-examples=false
         sources:
           - type: archive
-            url: 'https://download.gnome.org/sources/glibmm/2.76/glibmm-2.76.0.tar.xz'
-            sha256: 8637d80ceabd94fddd6e48970a082a264558d4ab82684e15ffc87e7ef3462ab2
+            url: https://www.cairographics.org/releases/cairomm-1.16.2.tar.xz
+            sha256: 6a63bf98a97dda2b0f55e34d1b5f3fb909ef8b70f9b8d382cb1ff3978e7dc13f
         cleanup:
-          - '/lib/glibmm*'
-          - '/lib/giomm*'
-          - '/lib/libglibmm_generate_extra_defs*'
-        modules:
-          - name: libsigc++
-            buildsystem: meson
-            config-opts:
-              - -Dbuild-documentation=false
-              - -Dbuild-examples=false
-              - -Dbuild-tests=false
-            sources:
-              - type: archive
-                url: 'https://download.gnome.org/sources/libsigc++/3.4/libsigc++-3.4.0.tar.xz'
-                sha256: 02e2630ffb5ce93cd52c38423521dfe7063328863a6e96d41d765a6116b8707e
-            cleanup:
-              - '/lib/sigc++*'
+          - '/lib/cairomm*'
 
-      - name: gtkmm
+      - name: pangomm
         buildsystem: meson
         config-opts:
           - -Dbuild-documentation=false
-          - -Dbuild-tests=false
-          - -Dbuild-demos=false
         sources:
           - type: archive
-            url: 'https://download.gnome.org/sources/gtkmm/4.10/gtkmm-4.10.0.tar.xz'
-            sha256: e1b109771557ecc53cba915a80b6ede827ffdbd0049c62fdf8bd7fa79afcc6eb
+            url: https://download.gnome.org/sources/pangomm/2.56/pangomm-2.56.1.tar.xz
+            sha256: 539f5aa60e9bdc6b955bb448e2a62cc14562744df690258040fbb74bf885755d
         cleanup:
-          - '/lib/gdkmm*'
-          - '/lib/gtkmm*'
-        modules:
-          - name: mm-common
-            buildsystem: meson
-            sources:
-              - type: archive
-                url: 'https://download.gnome.org/sources/mm-common/1.0/mm-common-1.0.5.tar.xz'
-                sha256: 705c6d29f4116a29bde4e36cfc1b046c92b6ef8c6dae4eaec85018747e6da5aa
-            cleanup:
-              - '/share/mm-common'
-              - '/bin/mm-common*'
+          - '/lib/pangomm*'
 
-          - name: cairomm
-            buildsystem: meson
-            config-opts:
-              - -Dbuild-documentation=false
-              - -Dbuild-examples=false
-            sources:
-              - type: archive
-                url: 'https://www.cairographics.org/releases/cairomm-1.16.2.tar.xz'
-                sha256: 6a63bf98a97dda2b0f55e34d1b5f3fb909ef8b70f9b8d382cb1ff3978e7dc13f
-            cleanup:
-              - '/lib/cairomm*'
-
-          - name: pangomm
-            buildsystem: meson
-            config-opts:
-              - -Dbuild-documentation=false
-            sources:
-              - type: archive
-                url: 'https://download.gnome.org/sources/pangomm/2.50/pangomm-2.50.1.tar.xz'
-                sha256: ccc9923413e408c2bff637df663248327d72822f11e394b423e1c5652b7d9214
-            cleanup:
-              - '/lib/pangomm*'
-
-          - name: atkmm
-            buildsystem: meson
-            config-opts:
-              - -Dbuild-documentation=false
-            sources:
-              - type: archive
-                url: 'https://download.gnome.org/sources/atkmm/2.36/atkmm-2.36.2.tar.xz'
-                sha256: 6f62dd99f746985e573605937577ccfc944368f606a71ca46342d70e1cdae079
-            cleanup:
-              - '/lib/atkmm*'
-
-      - name: libcdio
+      - name: atkmm
+        buildsystem: meson
+        config-opts:
+          - -Dbuild-documentation=false
         sources:
           - type: archive
-            url: 'https://ftp.gnu.org/gnu/libcdio/libcdio-2.1.0.tar.bz2'
-            sha256: 8550e9589dbd594bfac93b81ecf129b1dc9d0d51e90f9696f1b2f9b2af32712b
-        post-install:
-            - install -Dm644 -t ${FLATPAK_DEST}/share/licenses/libcdio COPYING
+            url: https://download.gnome.org/sources/atkmm/2.36/atkmm-2.36.3.tar.xz
+            sha256: 6ec264eaa0c4de0adb7202c600170bde9a7fbe4d466bfbe940eaf7faaa6c5974
         cleanup:
-            - '/bin/*'
+          - '/lib/atkmm*'
+
+  - name: libcdio
+    sources:
+      - type: archive
+        url: https://ftp.gnu.org/gnu/libcdio/libcdio-2.1.0.tar.bz2
+        sha256: 8550e9589dbd594bfac93b81ecf129b1dc9d0d51e90f9696f1b2f9b2af32712b
+    post-install:
+        - install -Dm644 -t ${FLATPAK_DEST}/share/licenses/libcdio COPYING
+    cleanup:
+        - '/bin/*'
+
+  - name: io.github.Snaggly.PS2_Pnacher
+    buildsystem: meson
+    config-opts:
+    - --buildtype=release
+    sources:
+      - type: git
+        url: https://github.com/Snaggly/PS2_Pnacher.git
+        commit: 5a5fe7bf50d2692c353558e0c066105a7fa355fc
+      - type: patch
+        paths:
+          - fix-icon-dimensions.patch
+          - fix-an-error.patch

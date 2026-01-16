@@ -1,0 +1,32 @@
+From f902b96b08684ac0a78c90cb0774b3278dd10860 Mon Sep 17 00:00:00 2001
+From: Sabri Ünal <yakushabb@gmail.com>
+Date: Wed, 14 Jan 2026 01:30:52 +0300
+Subject: [PATCH] Fix an error
+
+> error: ‘uint32_t’ does not name a type
+---
+ include/PnachTools.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/include/PnachTools.h b/include/PnachTools.h
+index ac5ee17..8ea387a 100644
+--- a/include/PnachTools.h
++++ b/include/PnachTools.h
+@@ -2,6 +2,7 @@
+ 
+ #include <iostream>
+ #include <vector>
++#include <cstdint>
+ 
+ namespace PS2PNACHER
+ {
+@@ -31,4 +32,4 @@ namespace PS2PNACHER
+ 		std::vector<PatchData> patches;
+ 	};
+ 
+-}
+\ No newline at end of file
++}
+--
+libgit2 1.7.2
+
