@@ -62,16 +62,6 @@ modules:
       - '/lib/gdkmm*'
       - '/lib/gtkmm*'
     modules:
-      - name: mm-common
-        buildsystem: meson
-        sources:
-          - type: archive
-            url: https://download.gnome.org/sources/mm-common/1.0/mm-common-1.0.7.tar.xz
-            sha256: 494abfce781418259b1e9d8888c73af4de4b6f3be36cc75d9baa8baa0f2a7a39
-        cleanup:
-          - '/share/mm-common'
-          - '/bin/mm-common*'
-
       - name: cairomm
         buildsystem: meson
         config-opts:
